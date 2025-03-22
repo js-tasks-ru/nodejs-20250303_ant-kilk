@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateTaskDto, Task, TaskStatus, UpdateTaskDto } from "./task.model";
 import { NotificationsService } from "../notifications/notifications.service";
-import { User } from "users/user.model";
+import { User } from "../users/user.model";
 import { UsersService } from "../users/users.service";
 
 @Injectable()
