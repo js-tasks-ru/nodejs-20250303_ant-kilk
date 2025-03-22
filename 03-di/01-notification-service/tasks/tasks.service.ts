@@ -1,8 +1,16 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateTaskDto, Task, TaskStatus, UpdateTaskDto } from "./task.model";
+import { NotificationsService } from "notifications/notifications.service";
+import { User } from "users/user.model";
+import { UsersService } from "users/users.service";
 
 @Injectable()
 export class TasksService {
+  @Inject(NotificationsService)
+  private notificationsService: NotificationsService;
+  @Inject(UsersService)
+  private usersService: UsersService;
+
   private tasks: Task[] = [];
 
   constructor() {}
@@ -17,6 +25,12 @@ export class TasksService {
       assignedTo,
     };
     this.tasks.push(task);
+    const user: User = this.usersService.getUserById(assignedTo);
+    this.notificationsService.sendEmail(
+      user.email,
+      "Новая задача",
+      `"Вы назначены ответственным за задачу: "${task.title}"`,
+    );
 
     return task;
   }
@@ -28,6 +42,11 @@ export class TasksService {
     }
 
     Object.assign(task, updateTaskDto);
+    const user: User = this.usersService.getUserById(task.assignedTo);
+    this.notificationsService.sendSMS(
+      user.phone,
+      `${task.title}" изменен на "${task.status}`,
+    );
     return task;
   }
 }
