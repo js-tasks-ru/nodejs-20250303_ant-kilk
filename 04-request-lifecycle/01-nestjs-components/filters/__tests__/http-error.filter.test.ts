@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication, Controller, Get } from "@nestjs/common";
+import { HttpAdapterHost } from "@nestjs/core";
 import * as request from "supertest";
 import * as fs from "fs";
 import { HttpErrorFilter } from "../http-error.filter";
@@ -21,7 +22,8 @@ describe("HttpErrorFilter", () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    app.useGlobalFilters(new HttpErrorFilter()); // Register the filter globally
+    const httpAdapterHost = app.get(HttpAdapterHost);
+    app.useGlobalFilters(new HttpErrorFilter(httpAdapterHost)); // Register the filter globally
     await app.init();
   });
 

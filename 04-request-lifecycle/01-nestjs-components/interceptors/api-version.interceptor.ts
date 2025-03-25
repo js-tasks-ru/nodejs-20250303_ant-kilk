@@ -13,12 +13,12 @@ export class ApiVersionInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         const executionTime = Date.now() - now;
-        console.log(`Request time: ${executionTime}ms`);
-
+        const execTimeStr = `${executionTime}ms`;
+        console.log(`Request time: ${execTimeStr}`);
         return {
           ...data,
           apiVersion: "1.0",
-          executionTime: executionTime,
+          executionTime: execTimeStr,
         };
       }),
     );
