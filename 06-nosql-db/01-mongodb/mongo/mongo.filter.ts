@@ -8,7 +8,7 @@ export class MongoFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    let message = "Database error";
+    let message = "Duplicate key error";
 
     if (exception instanceof mongoose.Error.ValidationError) {
       message = exception.message;

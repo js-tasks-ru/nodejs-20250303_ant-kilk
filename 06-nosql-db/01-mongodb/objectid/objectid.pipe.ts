@@ -5,7 +5,7 @@ import { isValidObjectId, Types } from "mongoose";
 export class ObjectIDPipe implements PipeTransform {
   transform(value: string) {
     if (!Types.ObjectId.isValid(value)) {
-      throw new BadRequestException(`Invalid ObjectId: ${value}`);
+      throw new BadRequestException("not a valid object id");
     }
     return value;
   }
