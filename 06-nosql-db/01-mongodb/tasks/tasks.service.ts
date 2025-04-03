@@ -8,11 +8,7 @@ import { Model, ObjectId } from "mongoose";
 @Injectable()
 export class TasksService {
   constructor(@InjectModel(Task.name) private TaskModel: Model<Task>) {}
-  async startTransaction() {
-    const session = await this.TaskModel.startSession();
-    session.startTransaction();
-    return session;
-  }
+
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
     const task = new this.TaskModel(createTaskDto);
     await task.save();
