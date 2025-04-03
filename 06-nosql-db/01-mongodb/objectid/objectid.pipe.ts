@@ -3,5 +3,10 @@ import { isValidObjectId, Types } from "mongoose";
 
 @Injectable()
 export class ObjectIDPipe implements PipeTransform {
-  transform(value: string) {}
+  transform(value: string) {
+    if (!Types.ObjectId.isValid(value)) {
+      throw new BadRequestException(`Invalid ObjectId: ${value}`);
+    }
+    return value;
+  }
 }
