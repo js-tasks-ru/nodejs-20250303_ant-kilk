@@ -11,9 +11,7 @@ export class MongoFilter implements ExceptionFilter {
     let message = "Database error";
 
     if (exception instanceof mongoose.Error.ValidationError) {
-      message = Object.values(exception.errors)
-        .map((err: any) => err.message)
-        .join(", ");
+      message = exception.message;
     } else if (
       exception instanceof mongoose.mongo.MongoError &&
       exception.code === 11000
