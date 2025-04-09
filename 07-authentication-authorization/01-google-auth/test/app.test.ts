@@ -1,4 +1,4 @@
-import { Test } from "@nestjs/testing";
+import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import * as request from "supertest";
 import { JwtService } from "@nestjs/jwt";
@@ -56,7 +56,7 @@ describe("Authentication (e2e)", () => {
       .useClass(MockGoogleStrategy)
       .compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication() as unknown as INestApplication;
     jwtService = moduleRef.get<JwtService>(JwtService);
     usersService = moduleRef.get<UsersService>(UsersService);
 

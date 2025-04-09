@@ -20,4 +20,11 @@ export class UsersService {
     user.avatar = payload.avatar;
     return this.userRepository.save(user);
   }
+
+  async saveRefreshToken(id: number, refreshToken: string) {
+    await this.userRepository.update(
+      { id: id.toString() },
+      { refreshToken: refreshToken },
+    );
+  }
 }
