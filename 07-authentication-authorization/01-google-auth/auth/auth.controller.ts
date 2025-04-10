@@ -1,13 +1,5 @@
-import {
-  Controller,
-  Get,
-  Request,
-  UnauthorizedException,
-  UseGuards,
-} from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+import { Controller, Get, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { JwtGuard } from "./jwt.guard";
 import { Public } from "./public.decorator";
 import { GoogleOAuthGuard } from "./google-oauth.guard";
 
@@ -49,12 +41,7 @@ export class AuthController {
   }
 
   @Get("profile")
-  @UseGuards(JwtGuard)
   profile(@Request() request) {
-    const authHeader = request.headers["authorization"];
-    if (!authHeader) {
-      throw new UnauthorizedException("Authorization header is missing");
-    }
     return request.user;
   }
 }
