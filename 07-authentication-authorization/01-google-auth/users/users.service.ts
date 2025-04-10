@@ -22,10 +22,10 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async saveRefreshToken(id: string, refreshToken: string) {
+  async saveAccessToken(id: string, accessToken: string) {
     await this.userRepository.update(
       { id: id.toString() },
-      { refreshToken: refreshToken },
+      { accessToken: accessToken },
     );
   }
 }

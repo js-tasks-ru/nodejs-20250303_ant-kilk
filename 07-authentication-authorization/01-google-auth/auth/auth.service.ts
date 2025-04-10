@@ -8,18 +8,14 @@ import { ConfigService } from "@nestjs/config";
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private configService: ConfigService,
     private usersService: UsersService,
   ) {}
 
   async login(user: User) {
     const accessToken = await this.generateAccessToken(user);
-    const refreshToken = await this.generateRefreshToken(user);
-    await this.usersService.saveRefreshToken(user.id, refreshToken);
+    await this.usersService.saveAccessToken(user.id, accessToken);
     const payload = { id: user.id, displayName: user.displayName };
-    return {
-      token: this.jwtService.sign(payload),
-    };
+    return { token: this.jwtService.sign(payload) };
   }
 
   generateAccessToken(user: User) {
@@ -27,12 +23,5 @@ export class AuthService {
       id: user.id,
       username: user.displayName,
     });
-  }
-
-  generateRefreshToken(user: User) {
-    return this.jwtService.signAsync(
-      { username: user.displayName, type: "refresh" },
-      { expiresIn: this.configService.get("jwt.refreshTokenExpires") },
-    );
   }
 }

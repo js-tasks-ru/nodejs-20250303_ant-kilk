@@ -23,5 +23,5 @@ export class User {
   role: Role;
 
   @Column({ nullable: true })
-  refreshToken: string;
+  accessToken: string;
 }
