@@ -23,7 +23,6 @@ export class UsersService {
   }
 
   async saveRefreshToken(id: string, refreshToken: string) {
-    console.log("saveRefreshToken", id, refreshToken);
     await this.userRepository.update(
       { id: id.toString() },
       { refreshToken: refreshToken },
