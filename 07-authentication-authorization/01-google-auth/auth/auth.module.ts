@@ -1,10 +1,9 @@
 import { Module } from "@nestjs/common";
+import { PassportModule } from "@nestjs/passport";
+import { JwtModule } from "@nestjs/jwt";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { UsersModule } from "../users/users.module";
-import { PassportModule } from "@nestjs/passport";
-import { ConfigService } from "@nestjs/config";
-import { JwtModule } from "@nestjs/jwt";
 import { GoogleStrategy } from "./passport/google.strategy";
 import { JwtStrategy } from "./passport/jwt.stategy";
 
@@ -12,16 +11,12 @@ import { JwtStrategy } from "./passport/jwt.stategy";
   imports: [
     UsersModule,
     PassportModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get("jwt.secret"),
-        signOptions: configService.get("jwt.signOptions"),
-        global: true,
-      }),
+    JwtModule.register({
+      secret: "killer-is-jim",
+      signOptions: { expiresIn: "20s" },
+      global: true,
     }),
   ],
-
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, GoogleStrategy],
 })

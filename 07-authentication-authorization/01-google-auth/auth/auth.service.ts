@@ -13,20 +13,15 @@ export class AuthService {
   ) {}
 
   async login(user: User) {
-    const accessToken = await this.generateAccessToken(user);
-    await this.usersService.saveAccessToken(user.id, accessToken);
-    const payload = { id: user.id, displayName: user.displayName };
-    return {
-      token: this.jwtService.sign(payload, {
-        secret: this.configService.get("jwt.secret"),
-      }),
-    };
-  }
+    const token = await this.jwtService.signAsync(
+      {
+        sub: user.id,
+        displayName: user.displayName,
+        avatar: user.avatar,
+      },
+      { secret: "killer-is-jim" },
+    );
 
-  generateAccessToken(user: User) {
-    return this.jwtService.signAsync({
-      id: user.id,
-      username: user.displayName,
-    });
+    return { token };
   }
 }

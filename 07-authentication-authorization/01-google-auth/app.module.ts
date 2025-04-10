@@ -1,7 +1,9 @@
+import { APP_GUARD } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
+import { JwtGuard } from "./auth/jwt.guard";
 import { AppController } from "./app.controller";
 import { ConfigModule } from "@nestjs/config";
 import dbConfig from "./config/database";
@@ -22,7 +24,7 @@ import { JwtGuard } from "auth/jwt.guard";
   controllers: [AppController],
   providers: [
     {
-      provide: "APP_GUARD",
+      provide: APP_GUARD,
       useClass: JwtGuard,
     },
   ],
