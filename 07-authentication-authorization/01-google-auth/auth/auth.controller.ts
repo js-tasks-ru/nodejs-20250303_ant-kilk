@@ -1,7 +1,9 @@
 import { Controller, Get, Request, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
 import { JwtGuard } from "./jwt.guard";
 import { Public } from "./public.decorator";
+import { GoogleOAuthGuard } from "./google-oauth.guard";
 
 @Controller("auth")
 export class AuthController {
@@ -9,11 +11,14 @@ export class AuthController {
 
   @Public()
   @Get("google")
+  @UseGuards(GoogleOAuthGuard)
   google() {
     return "ok";
   }
 
+  @Public()
   @Get("google/callback")
+  @UseGuards(GoogleOAuthGuard)
   async googleCallback(@Request() req) {
     const result = await this.authService.login(req.user);
 

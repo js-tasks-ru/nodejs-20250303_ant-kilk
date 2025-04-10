@@ -18,10 +18,12 @@ export class UsersService {
     user.id = payload.id;
     user.displayName = payload.displayName;
     user.avatar = payload.avatar;
+    user.email = payload.email;
     return this.userRepository.save(user);
   }
 
-  async saveRefreshToken(id: number, refreshToken: string) {
+  async saveRefreshToken(id: string, refreshToken: string) {
+    console.log("saveRefreshToken", id, refreshToken);
     await this.userRepository.update(
       { id: id.toString() },
       { refreshToken: refreshToken },

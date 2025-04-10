@@ -18,7 +18,7 @@ export class AuthService {
     console.log("accessToken", accessToken);
     const refreshToken = await this.generateRefreshToken(user);
     console.log("refreshToken", refreshToken);
-    await this.usersService.saveRefreshToken(Number(user.id), refreshToken);
+    await this.usersService.saveRefreshToken(user.id, refreshToken);
     const payload = { id: user.id, displayName: user.displayName };
     console.log("payload", payload);
     return {
@@ -30,7 +30,6 @@ export class AuthService {
     return this.jwtService.signAsync({
       sub: user.id,
       username: user.displayName,
-      role: "user",
     });
   }
 
