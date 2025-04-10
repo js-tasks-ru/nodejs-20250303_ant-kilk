@@ -9,7 +9,6 @@ import { ConfigModule } from "@nestjs/config";
 import dbConfig from "./config/database";
 import jwtConfig from "./config/jwt";
 import oauthConfig from "./config/oauth";
-import { JwtGuard } from "auth/jwt.guard";
 
 @Module({
   imports: [
