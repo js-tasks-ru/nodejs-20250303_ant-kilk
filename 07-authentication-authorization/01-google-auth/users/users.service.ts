@@ -18,6 +18,14 @@ export class UsersService {
     user.id = payload.id;
     user.displayName = payload.displayName;
     user.avatar = payload.avatar;
+    user.email = payload.email;
     return this.userRepository.save(user);
+  }
+
+  async saveAccessToken(id: string, accessToken: string) {
+    await this.userRepository.update(
+      { id: id.toString() },
+      { accessToken: accessToken },
+    );
   }
 }

@@ -8,15 +8,15 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @UseGuards(AuthGuard("google"))
   @Get("google")
+  @UseGuards(AuthGuard("google"))
   google() {
     return "ok";
   }
 
   @Public()
-  @UseGuards(AuthGuard("google"))
   @Get("google/callback")
+  @UseGuards(AuthGuard("google"))
   async googleCallback(@Request() req) {
     const result = await this.authService.login(req.user);
 

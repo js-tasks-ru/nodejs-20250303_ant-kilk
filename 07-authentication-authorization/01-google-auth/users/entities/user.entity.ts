@@ -1,5 +1,10 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
+export enum Role {
+  ADMIN = "admin",
+  USER = "user",
+}
+
 @Entity()
 export class User {
   @PrimaryColumn()
@@ -9,5 +14,14 @@ export class User {
   displayName: string;
 
   @Column()
+  email: string;
+
+  @Column()
   avatar: string;
+
+  @Column({ default: Role.USER })
+  role: Role;
+
+  @Column({ nullable: true })
+  accessToken: string;
 }
