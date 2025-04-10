@@ -1,4 +1,10 @@
-import { Controller, Get, Request, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
 import { JwtGuard } from "./jwt.guard";
@@ -45,6 +51,10 @@ export class AuthController {
   @Get("profile")
   @UseGuards(JwtGuard)
   profile(@Request() request) {
+    const authHeader = request.headers["authorization"];
+    if (!authHeader) {
+      throw new UnauthorizedException("Authorization header is missing");
+    }
     return request.user;
   }
 }
